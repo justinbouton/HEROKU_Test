@@ -4,5 +4,5 @@
         "use_env_varible": "JAWSDB_URL",
         "dialect": "mysql"
     }
- 
+
 }
