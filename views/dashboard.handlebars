@@ -1,0 +1,103 @@
+<header class="dashboard-header">
+    <div class="nav-container">
+        <nav>
+            <div class="logo-container">
+                <img src="/assets/imgs/logo-h.png" alt="logo" class="index-logo">
+            </div>
+            <ul class="nav-bar flex">
+                <li class="nav-list"><a href="/">Home</a></li>
+                <li class="nav-list last-nav"><a href="/logout">Logout</a></li>
+            </ul>
+            <div class="clearfix"></div>
+        </nav>
+    </div>
+</header>
+
+<div id="dashboard-container">
+    <section class="dashboard-left-side">
+        <h2 class="dashboard-head previous">Previous Trips</h2>
+        {{!-- Previous trips --}}
+        <ul id="itineraryList">
+            {{#each trips}}
+            {{#if this.isPrevious}}
+            <li class="result-list">
+                <p class="trip-name">Trip: {{this.trip_name}} </p>
+                <span class="bold">Depart date:</span> {{this.departDate}} <br>
+                <span class="bold">Return date:</span> {{this.returnDate}} <br>
+                <span class="bold">Locations:</span> {{this.locations}} <br>
+                <span class="bold">Activities:</span> {{this.activities}} <br>
+                {{!-- NEED TO UPDATE ACTION --}}
+                <form action="dashboard/delete/{{this.trip_id}}?_method=DELETE" method="POST" class="delete">
+                    <button type="submit" class="submit">Delete the itinerary</button>
+                </form>
+            </li>
+            {{/if}}
+            {{/each}}
+        </ul>
+    </section>
+    <section class="dashboard-right-side">
+        <h2 class="dashboard-head previous">New Trip</h2>
+        <p class="dashboard-content">Tell us about your trip</p>
+        <form id="add-trip" method="post" action="/dashboard/createtrip" class="create">
+            <fieldset>
+
+                <span class="register-input dashboard-input-hoshi">
+                    <input type="text" id="trip_name" name="trip_name" size="20" class="register-input-field register-input-field-hoshi">
+                    <label for="trip_name" class="register-input-label register-input-label-hoshi register-input-label-hoshi-color">
+                        <span class="register-input-label-content register-input-label-content-hoshi">Trip name:</span>
+                    </label>
+                </span>
+
+                <br><br>
+
+                <span class="register-input dashboard-input-hoshi-half-left">
+                    <input type="date" id="departDate" name="departDate" size="20" class="register-input-field register-input-field-hoshi">
+                    <label for="departDate" class="register-input-label register-input-label-hoshi register-input-label-hoshi-color">
+                        <span class="register-input-label-content register-input-label-content-hoshi">Departure date:</span>
+                    </label>
+                </span>
+
+                <span class="register-input dashboard-input-hoshi-half-right">
+                    <input type="date" id="returnDate" name="returnDate" size="20" class="register-input-field register-input-field-hoshi">
+                    <label for="returnDate" class="register-input-label register-input-label-hoshi register-input-label-hoshi-color">
+                        <span class="register-input-label-content register-input-label-content-hoshi">Return date:</span>
+                    </label>
+                </span>
+
+                <br><br>
+
+                <span class="register-input dashboard-input-hoshi-half-left overflow">
+                    <label for="locations" class="textarea-title">Locations:</label>
+                    <textarea type="text" name="locations" rows="4" cols="40" placeholder=" First city &#10; Second &#10; Third..."></textarea>
+                </span>
+                
+                <span class="register-input dashboard-input-hoshi-half-left overflow">
+                    <label for="locations" class="textarea-title">Activity:</label>
+                <textarea type="text" name="activities" rows="4" cols="40" placeholder=" First activity &#10; Second &#10; Third..."></textarea>
+                </span>
+                <br><br>
+                <button class="submit-button" name="submitted" type="submit">Submit</button>
+            </fieldset>
+        </form>
+        {{!-- Show active trip --}}
+        <ul>
+            {{#each trips}}
+                {{#unless this.isPrevious}}
+                    <li class="result-list"> 
+                        <p class="trip-name">Trip: {{this.trip_name}} </p>
+                        <span class="bold">Depart date:</span> {{this.departDate}} <br>
+                        <span class="bold">Return date:</span> {{this.returnDate}} <br>
+                        <span class="bold">Locations:</span> {{this.locations}} <br>
+                        <span class="bold">Activities:</span> {{this.activities}} <br>
+                        {{!-- Archive old trip. NEED TO UPDATE ACTION --}}
+                        {{!-- <button class="submit update" data-id="{{this.trip_id}}">Add to Previous trip</button> --}}
+                        <form action="/dashboard/update/{{this.trip_id}}" method="POST" class="delete">
+                            <input type="hidden" name="isPrevious" value="true">
+                            <button type="submit" class="submit">Add to Previous trip</button>
+                        </form>
+                    </li>
+                {{/unless}}
+            {{/each}}
+        </ul>
+    </section>
+</div>
