@@ -55,7 +55,9 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+# .env
+# disabled for Heroku
+
 
 # next.js build output
 .next
